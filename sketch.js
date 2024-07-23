@@ -1,15 +1,16 @@
-let particles = [];  // Array to store particles
-let stars = [];      // Array to store star positions and sizes
+let particles = [];  
+let stars = [];      
 let bgColor = 0;  
 
 let chimeSound;
 
 function preload() {
-  chimeSound = loadSound('chime.wav'); // Ensure the path is correct
+  chimeSound = loadSound('chime.wav'); 
 }
 
 
 function setup() {
+    chimeSound.setVolume(0.1);
     createCanvas(windowWidth, windowHeight);
 
     // Generate stars and store their properties
@@ -23,7 +24,7 @@ function setup() {
 }
 
 function draw() {
-    // Fade background by drawing a semi-transparent rectangle over the entire canvas
+    
     fill(bgColor, 40);
     rect(0, 0, width, height);
 
@@ -53,10 +54,16 @@ function drawStars() {
 function mousePressed() {
     // Add a new particle at the mouse position
     particles.push(new Particle(mouseX, mouseY));
-  chimeSound.play();
+    chimeSound.play();
 }
+function touchStarted() {
+    particles.push(new Particle(touchX, touchY));
+    chimeSound.play();
+    return false; // Return false to prevent default touch event behavior and prevent scrolling or zooming the screen.
+}
+
 function getRandomGalaxyColor() {
-    // Define a set of galaxy colors (deep blues, purples, pinks, etc.)
+   
     const galaxyColors = [
         color(68, 35, 124),  // Deep Purple
         color(94, 53, 177),  // Light Purple
