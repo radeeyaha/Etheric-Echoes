@@ -51,15 +51,22 @@ function drawStars() {
     });
 }
 
-function mousePressed() {
-    // Add a new particle at the mouse position
-    particles.push(new Particle(mouseX, mouseY));
+function addParticle(x, y) {
+    particles.push(new Particle(x, y));
     chimeSound.play();
 }
+
+function mousePressed() {
+    addParticle(mouseX, mouseY);
+}
+
 function touchStarted() {
-    particles.push(new Particle(touchX, touchY));
-    chimeSound.play();
-    return false; // Return false to prevent default touch event behavior and prevent scrolling or zooming the screen.
+    if (touches.length > 0) {  // Make sure there is at least one touch
+        for (let touch of touches) {  // Handle multiple touches if necessary
+            addParticle(touch.x, touch.y);
+        }
+        return false;  // Prevent default touch behavior (scrolling, zooming)
+    }
 }
 
 function getRandomGalaxyColor() {
